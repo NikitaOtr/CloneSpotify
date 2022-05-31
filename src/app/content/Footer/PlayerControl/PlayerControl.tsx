@@ -32,9 +32,13 @@ export const PlayerControl: VFC<IProps> = ({ audio }) => {
         const nextTrackHandler = () => nextTrack();
         audio.addEventListener('ended', nextTrackHandler);
 
+        const downloadFullDataHandler = () => setIsReadyPlaying(true);
+        audio.addEventListener('loadeddata', downloadFullDataHandler);
+
         return () => {
             audio.removeEventListener('loadedmetadata', setDurationHandler);
             audio.removeEventListener('ended', nextTrackHandler);
+            audio.removeEventListener('loadeddata', downloadFullDataHandler);
         };
     }, []);
 
@@ -55,15 +59,6 @@ export const PlayerControl: VFC<IProps> = ({ audio }) => {
             isPlaying ? audio.play() : audio.pause();
         }
     }, [isPlaying, isReadyPlaying]);
-
-    useEffect(() => {
-        const downloadFullDataHandler = () => {
-            setIsReadyPlaying(true);
-        };
-        audio.addEventListener('loadeddata', downloadFullDataHandler);
-
-        return () => audio.removeEventListener('loadeddata', downloadFullDataHandler);
-    }, [isReadyPlaying]);
 
     return (
         <div className={s.playerControl}>
