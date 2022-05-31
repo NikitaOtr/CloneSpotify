@@ -6,8 +6,9 @@ import { IPlaylist, ITrack } from '../../types/commonTypes';
 const initialState = {
     status: EnumOfStatusPlayer.Success,
     currentTrackIndex: 0,
-    playlist: {} as IPlaylist,
+    playlist: null as null | IPlaylist,
     track: null as null | ITrack,
+    isReadyPlaying: false,
     saveVolume: 0.5,
     volume: 0.5,
     duration: 0,
@@ -19,6 +20,10 @@ export const playerReducer = createSlice({
     name: 'playerReducer',
     initialState,
     reducers: {
+        setIsReadyPlaying(state, { payload }: PayloadAction<boolean>) {
+            state.isReadyPlaying = payload;
+        },
+
         togglePlaying(state) {
             state.isPlaying = !state.isPlaying;
         },
@@ -49,17 +54,24 @@ export const playerReducer = createSlice({
             state.currentTrackIndex = payload.startIndex || 0;
             state.track = state.playlist.tracks[state.currentTrackIndex];
             state.isPlaying = true;
+            state.isReadyPlaying = false;
         },
 
         nextTrack(state) {
-            state.currentTrackIndex = (state.currentTrackIndex + 1) % state.playlist.tracks.length;
-            state.track = state.playlist.tracks[state.currentTrackIndex];
+            if (state.playlist) {
+                state.currentTrackIndex = (state.currentTrackIndex + 1) % state.playlist.tracks.length;
+                state.track = state.playlist.tracks[state.currentTrackIndex];
+                state.isReadyPlaying = false;
+            }
         },
 
         previousTrack(state) {
-            const countTracks = state.playlist.tracks.length;
-            state.currentTrackIndex = (state.currentTrackIndex + (countTracks - 1)) % countTracks;
-            state.track = state.playlist.tracks[state.currentTrackIndex];
+            if (state.playlist) {
+                const countTracks = state.playlist.tracks.length;
+                state.currentTrackIndex = (state.currentTrackIndex + (countTracks - 1)) % countTracks;
+                state.track = state.playlist.tracks[state.currentTrackIndex];
+                state.isReadyPlaying = false;
+            }
         },
 
         setPlayerStatus(state, { payload }: PayloadAction<EnumOfStatusPlayer>) {

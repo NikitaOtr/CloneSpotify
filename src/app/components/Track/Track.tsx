@@ -28,7 +28,7 @@ export const Track: VFC<IProps> = ({ track, index, setTrack, isSetThisPlaylist }
     const isPlayingThisTrack = isPlaying && isChooseThisTrack;
 
     const onClickHandler = () => {
-        if (isPlayingThisTrack) {
+        if (isChooseThisTrack) {
             togglePlaying();
         } else {
             setTrack();

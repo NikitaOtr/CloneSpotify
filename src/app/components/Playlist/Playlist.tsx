@@ -18,7 +18,7 @@ export const Playlist: VFC<IProps> = ({ playlist }) => {
     const playingPlaylist = useAppSelector(state => state.playerReducer.playlist);
     const { setPlaylist } = useAppActions();
 
-    const isSetThisPlaylist = playingPlaylist.id === playlist.id;
+    const isSetThisPlaylist = playingPlaylist?.id === playlist.id;
 
     return (
         <section className={s.playlist}>

@@ -46,7 +46,7 @@ export const PlaylistPage = () => {
         return <Error/>;
     }
 
-    const isSetThisPlaylist = playlist.id === playingPlaylist.id;
+    const isSetThisPlaylist = playlist.id === playingPlaylist?.id;
     const isPlayingThisPlaylist = isPlaying && isSetThisPlaylist;
 
     const onClick = () => {

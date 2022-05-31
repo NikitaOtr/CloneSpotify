@@ -50,6 +50,7 @@ export const fetchSearch = createAsyncThunk(
     'searchReducer/fetchSearch',
     async ({ searchText }: { searchText: string }, { dispatch }) => {
         try {
+            dispatch(setStatus(EnumOfStatusFetching.Loading));
             const data = await apiSearch.getAll(searchText || 'popular');
             dispatch(setData({
                 ...data,

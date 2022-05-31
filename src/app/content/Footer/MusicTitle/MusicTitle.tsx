@@ -19,7 +19,7 @@ export const MusicTitle = () => {
 
     return (
         <div className={s.musicTitle}>
-            <img className={s.musicTitle__img} src={track.album?.images[0].url || playlist.images[0].url || question}/>
+            <img className={s.musicTitle__img} src={track.album?.images[0].url || playlist?.images[0].url || question}/>
             <div className={s.musicTitle__box}>
                 <span className={s.musicTitle__box__text}>{track.name}</span>
                 <div className={s.box__authors}>
